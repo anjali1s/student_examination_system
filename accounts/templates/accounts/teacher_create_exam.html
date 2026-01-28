@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Create Exam | ExamSphere</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+    font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg,#1d3557,#457b9d);
+    min-height:100vh; display:flex; justify-content:center; align-items:center;
+}
+.card {
+    background:#fff; color:#1d3557;
+    padding:30px; border-radius:10px; box-shadow:0 8px 20px rgba(0,0,0,0.25); width:400px;
+}
+.card h2 { text-align:center; margin-bottom:20px; }
+.form-group { margin-bottom:15px; }
+.form-group label { display:block; margin-bottom:5px; font-weight:600; }
+.form-group input, .form-group select { width:100%; padding:10px; border-radius:6px; border:1px solid #ccc; }
+.btn { width:100%; padding:12px; background:#1d3557; color:#fff; border:none; border-radius:6px; font-weight:600; cursor:pointer; }
+.btn:hover { background:#16324f; }
+.error { color:#d90429; text-align:center; margin-bottom:10px; }
+</style>
+</head>
+<body>
+<div class="card">
+<h2>Create Exam</h2>
+
+{% if error %}
+<div class="error">{{ error }}</div>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>Subject</label>
+        <select name="subject" required>
+            {% for subject in subjects %}
+            <option value="{{ subject.id }}">{{ subject.name }} ({{ subject.course.name }})</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Exam Name</label>
+        <input type="text" name="name" placeholder="Enter Exam Name" required>
+    </div>
+    <div class="form-group">
+        <label>Start Time</label>
+        <input type="datetime-local" name="start_time" required>
+    </div>
+    <div class="form-group">
+        <label>End Time</label>
+        <input type="datetime-local" name="end_time" required>
+    </div>
+    <div class="form-group">
+        <label><input type="checkbox" name="allow_calculator"> Allow Calculator</label>
+    </div>
+    <button type="submit" class="btn">Create Exam</button>
+</form>
+</div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Exams</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 60px auto;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2f3640;
+            margin-bottom: 30px;
+        }
+        .error {
+            background: #e74c3c;
+            color: #fff;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 14px;
+            border-bottom: 1px solid #dcdde1;
+            text-align: left;
+        }
+        th {
+            background-color: #40739e;
+            color: #fff;
+        }
+        tr:hover {
+            background-color: #f1f2f6;
+        }
+        a.button {
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            background-color: #40739e;
+            color: #fff;
+            transition: 0.3s;
+        }
+        a.button:hover {
+            background-color: #192a56;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Available Exams</h1>
+        <form method="post">
+        {% csrf_token %}
+    ...
+        </form>
+
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        {% if exams %}
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Subject</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Action</th>
+            </tr>
+            {% for exam in exams %}
+            <tr>
+                <td>{{ exam.name }}</td>
+                <td>{{ exam.subject.name }}</td>
+                <td>{{ exam.start_time }}</td>
+                <td>{{ exam.end_time }}</td>
+                <td>
+                    <a class="button" href="{% url 'student_take_exam' exam.id %}">Take Exam</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+            <p style="text-align:center; color:#555;">No exams available for your course.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

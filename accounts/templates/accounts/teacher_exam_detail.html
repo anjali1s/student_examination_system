@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add Questions | ExamSphere</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body { font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg,#1d3557,#457b9d); color:#fff; min-height:100vh; padding:30px; }
+.header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+.header h1 { font-size:24px; }
+.header a { color:#fff; text-decoration:none; font-weight:600; }
+.card { background:#fff; color:#1d3557; padding:20px; border-radius:10px; box-shadow:0 8px 20px rgba(0,0,0,0.25); margin-bottom:20px; }
+.card h2 { margin-bottom:15px; }
+.form-group { margin-bottom:12px; }
+.form-group label { display:block; margin-bottom:5px; font-weight:600; }
+.form-group input { width:100%; padding:10px; border-radius:6px; border:1px solid #ccc; }
+.btn { padding:10px 20px; background:#1d3557; color:#fff; border:none; border-radius:6px; font-weight:600; cursor:pointer; }
+.btn:hover { background:#16324f; }
+.table-container { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; margin-top:15px; }
+th, td { padding:12px; border-bottom:1px solid #ddd; text-align:left; }
+th { background:#457b9d; color:#fff; }
+td a { color:#1d3557; text-decoration:none; font-weight:600; }
+td a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+<div class="header">
+<h1>{{ exam.name }} - {{ exam.subject.name }}</h1>
+<a href="{% url 'teacher_dashboard' %}">Back</a>
+</div>
+
+<div class="card">
+<h2>Add New Question</h2>
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>Question Text</label>
+        <input type="text" name="question_text" placeholder="Enter question" required>
+    </div>
+    <div class="form-group">
+        <label>Option 1</label>
+        <input type="text" name="option1" required>
+    </div>
+    <div class="form-group">
+        <label>Option 2</label>
+        <input type="text" name="option2" required>
+    </div>
+    <div class="form-group">
+        <label>Option 3</label>
+        <input type="text" name="option3">
+    </div>
+    <div class="form-group">
+        <label>Option 4</label>
+        <input type="text" name="option4">
+    </div>
+    <div class="form-group">
+        <label>Correct Option</label>
+        <select name="correct_option" required>
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+            <option value="option4">Option 4</option>
+        </select>
+    </div>
+    <button type="submit" class="btn">Add Question</button>
+</form>
+</div>
+
+<div class="card table-container">
+<h2>Existing Questions</h2>
+<table>
+<tr>
+    <th>Question</th>
+    <th>Correct Option</th>
+</tr>
+{% for question in questions %}
+<tr>
+    <td>{{ question.question_text }}</td>
+    <td>{{ question.correct_option }}</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+</body>
+</html>
