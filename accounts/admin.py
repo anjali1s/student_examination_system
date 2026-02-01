@@ -19,7 +19,7 @@ class SubjectAdmin(admin.ModelAdmin):
 # Exam
 @admin.register(Exam)
 class ExamAdmin(admin.ModelAdmin):
-    list_display = ('name', 'subject', 'start_time', 'end_time', 'created_by', 'allow_calculator', 'is_active')
+    list_display = ('name', 'subject',  'created_by', 'allow_calculator', 'is_active')
     list_filter = ('subject', 'created_by', 'is_active')
 
 # Question
@@ -30,4 +30,4 @@ class QuestionAdmin(admin.ModelAdmin):
 # StudentExam
 @admin.register(StudentExam)
 class StudentExamAdmin(admin.ModelAdmin):
-    list_display = ('student', 'exam', 'score', 'is_submitted', 'start_time', 'end_time')
+    list_display = ('student', 'exam', 'score', 'is_submitted', )

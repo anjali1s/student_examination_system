@@ -39,17 +39,18 @@ class Subject(models.Model):
         return f"{self.name} ({self.course.name})"
 
 
-# ===== Exams =====
+# ===== Exams (FIXED - TIME FIELDS NOW OPTIONAL) =====
 class Exam(models.Model):
     
     name = models.CharField(max_length=200)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    # FIXED: Made time fields optional with blank=True and null=True
+    
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)  # teacher
     is_active = models.BooleanField(default=True)
     allow_calculator = models.BooleanField(default=False)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, default=1)
     subject = models.ForeignKey('Subject', on_delete=models.CASCADE, )
+    
     def __str__(self):
         return f"{self.name} - {self.subject.name}"
 
@@ -69,13 +70,54 @@ class Question(models.Model):
 
 
 # ===== Track student exams =====
+from django.db import models
+from django.contrib.auth.models import User
+from django.utils import timezone
+
+
 class StudentExam(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE)
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    exam = models.ForeignKey('Exam', on_delete=models.CASCADE)
+
     score = models.FloatField(blank=True, null=True)
     is_submitted = models.BooleanField(default=False)
-    start_time = models.DateTimeField(blank=True, null=True)
-    end_time = models.DateTimeField(blank=True, null=True)
+
+    # when student actually starts the exam
+    
+
+    class Meta:
+        unique_together = ('student', 'exam')  # 🔒 one attempt only
+
+    def start_exam(self):
+        
+        
+            self.save()
+
+    def submit_exam(self, score):
+        """
+        Call this on final submission or auto-submit
+        """
+        self.score = score
+        self.is_submitted = True
+        
+        self.save()
+
+    def is_active_now(self):
+        """
+        Exam is active for this student right now (TIME RESTRICTION REMOVED)
+        """
+        if self.is_submitted:
+            return False
+
+        # Removed time restriction - exam is always active if not submitted
+        return True
+
+    def has_expired(self):
+        """
+        Exam time over for everyone (TIME RESTRICTION REMOVED - Always returns False)
+        """
+        # Removed time restriction
+        return False
 
     def __str__(self):
         return f"{self.student.username} - {self.exam.name}"
@@ -93,7 +135,6 @@ class Result(models.Model):
         return f"{self.student.user.username} - {self.exam.name} - {self.score}"
     
 
-   
 
 
 

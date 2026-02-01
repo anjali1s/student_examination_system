@@ -521,14 +521,7 @@
                         </div>
                         <div class="result-subject">{{ record.exam.subject.name }}</div>
                         <div class="result-meta">
-                            <div class="meta-item">
-                                <i class="fas fa-calendar"></i>
-                                <span>{{ record.end_time|date:"M d, Y" }}</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="fas fa-clock"></i>
-                                <span>{{ record.end_time|date:"h:i A" }}</span>
-                            </div>
+                            
                             {% if record.is_submitted %}
                             <div class="meta-item">
                                 <i class="fas fa-check-circle"></i>
