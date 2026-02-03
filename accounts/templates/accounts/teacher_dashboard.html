@@ -721,14 +721,7 @@
                                 <div class="exam-name">{{ exam.name }}</div>
                                 <div class="exam-subject">{{ exam.subject.name }}</div>
                             </td>
-                            <td>
-                                <div class="exam-date">
-                                    <i class="fas fa-calendar"></i> {{ exam.start_time|date:"M d, Y" }}
-                                </div>
-                                <div class="exam-date">
-                                    <i class="fas fa-clock"></i> {{ exam.start_time|date:"h:i A" }} - {{ exam.end_time|date:"h:i A" }}
-                                </div>
-                            </td>
+                           
                             <td>
                                 {% if exam.is_active %}
                                     <span class="exam-status active">
