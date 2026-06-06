@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Online Examination System
 
 ## Description
